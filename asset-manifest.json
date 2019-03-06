@@ -1,0 +1,14 @@
+{
+  "main.css": "/TheMovieJs-client/static/css/main.c43bfb02.chunk.css",
+  "main.js": "/TheMovieJs-client/static/js/main.10853c8b.chunk.js",
+  "main.js.map": "/TheMovieJs-client/static/js/main.10853c8b.chunk.js.map",
+  "runtime~main.js": "/TheMovieJs-client/static/js/runtime~main.da3cdf4c.js",
+  "runtime~main.js.map": "/TheMovieJs-client/static/js/runtime~main.da3cdf4c.js.map",
+  "static/js/2.6726c0c9.chunk.js": "/TheMovieJs-client/static/js/2.6726c0c9.chunk.js",
+  "static/js/2.6726c0c9.chunk.js.map": "/TheMovieJs-client/static/js/2.6726c0c9.chunk.js.map",
+  "index.html": "/TheMovieJs-client/index.html",
+  "precache-manifest.4051b38c3726ba4caaa3286383c8ce87.js": "/TheMovieJs-client/precache-manifest.4051b38c3726ba4caaa3286383c8ce87.js",
+  "service-worker.js": "/TheMovieJs-client/service-worker.js",
+  "static/css/main.c43bfb02.chunk.css.map": "/TheMovieJs-client/static/css/main.c43bfb02.chunk.css.map",
+  "static/media/logo.svg": "/TheMovieJs-client/static/media/logo.5d5d9eef.svg"
+}
