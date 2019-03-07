@@ -1,21 +1,11 @@
-// @flow
-import { connect } from "react-redux";
-import { Home } from "./presenter";
-import { getOwnerName } from "../../actions";
+import React, { Component } from "react";
 
-const mapStateToProps = ({ ownerNameReducer }) => {
-  return {
-    ownerName: ownerNameReducer.ownerName
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getOwnerName: () => dispatch(getOwnerName())
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default class Home extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Home page</h1>
+      </div>
+    );
+  }
+}
