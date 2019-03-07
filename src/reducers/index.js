@@ -1,9 +1,15 @@
-import { combineReducers } from "redux";
+import { persistCombineReducers } from "redux-persist";
+import sessionStorage from "redux-persist/es/storage/session";
 
-import ownerNameReducer from "./owner";
+import loginReducer from "./login";
 
-const appReducer = combineReducers({
-  ownerNameReducer
+const persistConfig = {
+  key: "root",
+  storage: sessionStorage
+};
+
+const appReducer = persistCombineReducers(persistConfig, {
+  loginReducer
 });
 
 export default appReducer;
