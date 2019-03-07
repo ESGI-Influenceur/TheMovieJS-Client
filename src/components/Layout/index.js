@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Layout } from "./presenter";
+import Layout from "./presenter";
 import { withRouter } from "react-router-dom";
 
 const mapStateToProps = ({ loginReducer }) => {
