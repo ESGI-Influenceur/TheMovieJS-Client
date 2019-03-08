@@ -1,21 +1,43 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Form, Icon, Input, Button, Row, Col, Typography } from "antd";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
 
 export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      formError: null,
+      isErrorOpen: false
     };
+  }
+
+  componentDidMount() {
+    if (this.props.isLoginError) {
+      this.setState({
+        isErrorOpen: true
+      });
+    }
   }
 
   submitLoginForm = e => {
     e.preventDefault();
-    this.props.login(this.state.username, this.state.password).catch(error => {
-      console.log(error);
-    });
+    this.props
+      .login(this.state.username, this.state.password)
+      .catch(({ error }) => {
+        this.setState({
+          formError: error.response.data.message,
+          isErrorOpen: true
+        });
+      });
   };
 
   handleChange = e => {
@@ -26,61 +48,76 @@ export class Login extends Component {
     });
   };
 
+  handleErrorClose = e => {
+    this.setState({ isErrorOpen: false, formError: null });
+  };
+
   render() {
-    let { username, password } = this.state;
-    let { isLoginPending, isLoginSuccess, isLoginError } = this.props;
-    const { Title } = Typography;
+    let { username, password, formError, isErrorOpen } = this.state;
+    let { isLoginSuccess } = this.props;
 
     if (isLoginSuccess) {
       return <Redirect to={{ pathname: "/" }} />;
     }
 
     return (
-      <Fragment>
-        <Title style={{ textAlign: "center" }}>Login</Title>
-        <Row type="flex" justify="center">
-          <Col lg={{ span: 8 }}>
-            <Form className="login-form">
-              <Form.Item>
-                <Input
-                  allowClear={true}
-                  name="username"
-                  onChange={this.handleChange}
-                  value={username}
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Username"
-                />
-              </Form.Item>
-              <Form.Item>
-                <Input
-                  allowClear={true}
-                  name="password"
-                  onChange={this.handleChange}
-                  value={password}
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  onClick={this.submitLoginForm}
-                  loading={isLoginPending ? true : false}
-                  block
-                  type="primary"
-                  htmlType="submit"
-                >
-                  Log in
-                </Button>
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
-      </Fragment>
+      <Grid container direction="column" justify="center" alignItems="center">
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center"
+          }}
+          open={isErrorOpen & (formError != null) ? true : false}
+          autoHideDuration={6000}
+          onClose={this.handleErrorClose}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className="close"
+              onClick={this.handleErrorClose}
+            >
+              <CloseIcon className="icon" />
+            </IconButton>
+          ]}
+          message={<span id="message-id">{formError}</span>}
+        />
+        <FormControl className="container">
+          <Typography component="h2" variant="h1" gutterBottom>
+            Login
+          </Typography>
+          <TextField
+            name="username"
+            label="Nom d'Utilisateur"
+            className="textField"
+            value={username}
+            onChange={this.handleChange}
+            margin="normal"
+          />
+
+          <TextField
+            name="password"
+            label="Mot de passe"
+            className="textField"
+            type="password"
+            value={password}
+            onChange={this.handleChange}
+            margin="normal"
+          />
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            onClick={this.submitLoginForm}
+          >
+            Se connecter
+          </Button>
+        </FormControl>
+      </Grid>
     );
   }
 }
