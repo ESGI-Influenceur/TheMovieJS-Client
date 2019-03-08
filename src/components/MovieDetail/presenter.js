@@ -11,6 +11,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import AppBar from "@material-ui/core/AppBar";
+import Chip from "@material-ui/core/Chip";
+
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 class MovieDetail extends Component {
   constructor(props) {
@@ -19,11 +27,13 @@ class MovieDetail extends Component {
       id: null,
       alertCommentOpen: false,
       alertCommentText: null,
-      newCommentContent: ""
+      newCommentContent: "",
+      value: 0
     };
   }
 
   componentDidMount() {
+    console.log(this.props);
     const { id } = this.props.match.params;
     this.setState({
       id: id
@@ -68,12 +78,19 @@ class MovieDetail extends Component {
     });
   };
 
+  handleTabs = (event, value) => {
+    this.setState({ value });
+  };
+
+
   handleAlertClose = () => {
     this.setState({ alertCommentOpen: false, alertCommentText: null });
   };
 
   render() {
-    console.log(this.props);
+    console.log(this.state.value);
+
+    const { value } = this.state;
     const { movie, isLoginSuccess } = this.props;
     const {
       newCommentContent,
@@ -82,29 +99,43 @@ class MovieDetail extends Component {
     } = this.state;
 
     let listComment;
+    let listGenre;
 
-    if (movie.comments.length > 0) {
+    if (movie && movie.comments.length > 0) {
       listComment = movie.comments.map((comment, index) => {
         return (
-          <ListItem alignItems="flex-start" key={index}>
-            <ListItemAvatar>
-              <Avatar>{comment.user.username[0]}</Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={comment.user.username}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    className="inline"
-                    color="textPrimary"
-                  >
-                    {comment.content}
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
+          <Fragment>
+            <ListItem alignItems="flex-start" key={index}>
+              <ListItemAvatar>
+                <Avatar>{comment.user.username[0]}</Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={comment.user.username}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      className="inline"
+                      color="textPrimary"
+                    >
+                      {comment.content}
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+            <Divider />
+          </Fragment>
+
+        );
+      });
+    }
+
+    if (movie){
+      listGenre = movie.genre.map((genre, index) => {
+        console.log(genre.name);
+        return (
+            <Chip key={index} label={genre.name} style={{margin:'0 5px'}}/>
         );
       });
     }
@@ -137,37 +168,97 @@ class MovieDetail extends Component {
         />
         {movie && (
           <Fragment>
-            <p>{movie.title}</p>
-            <p>{movie.overview}</p>
+            <div className='fiche' style={{backgroundImage:'url('+movie.backdrop_path+')'}}>
+              <div className='ficher-overlay'>
+              </div>
+              <div className='fiche-content'>
+                <div>
+                  <img className='poster-image' src={movie.poster_path}></img>
+                </div>
+                <div className='description'>
+                  <h1>{movie.title}</h1>
 
-            {/* Posté un commentaire */}
-            {isLoginSuccess && (
-              <FormControl className="container">
-                <Typography component="h2" variant="h1" gutterBottom>
-                  Commentaire
-                </Typography>
-                <TextField
-                  name="newCommentContent"
-                  label="Commentaire"
-                  className="textField"
-                  value={newCommentContent}
-                  onChange={this.handleChange}
-                  margin="normal"
-                />
-                <Button
-                  variant="contained"
-                  size="large"
-                  color="primary"
-                  onClick={this.submitComment}
-                >
-                  Commenter
-                </Button>
-              </FormControl>
+                  <Avatar style={{
+                    color: '#fff',
+                    margin: '0px 0px 20px 0px',
+                    backgroundColor: movie.vote_average > 5 ? '#4caf50' : '#ff5722'}}>{movie.vote_average}</Avatar>
+
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    flexWrap: 'wrap'}}>
+                    {listGenre}
+                  </div>
+                  <p>{movie.overview}</p>
+                </div>
+              </div>
+            </div>
+
+            <AppBar position="static" color="default">
+              <Tabs
+                value={value}
+                onChange={this.handleTabs}
+                indicatorColor="primary"
+                textColor="primary"
+                centered
+              >
+                <Tab label="Comments" />
+                <Tab label="Video" />
+              </Tabs>
+            </AppBar>
+
+            {value === 0 && (
+              <div style={{ backgroundColor: '#eeeeee',width:'100%',position:'relative'}}>
+                <div style={{display:'flex',flexDirection:'column'}}>
+
+                  <List subheader={<ListSubheader style={{    background: 'white', borderBottom: '1px solid rgba(0,0,0,0.1)'}} component="div" >Comments list</ListSubheader>}>
+                    {listComment}
+                    </List>
+
+                    {isLoginSuccess && (
+
+                      <Paper elevation={1} style={{    width: '400px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: '10px 0px',
+                        margin: '50px auto'}}>
+                        <FormControl className="container">
+
+
+                          <TextField
+                            name={"newCommentContent"}
+                            id="outlined-multiline-flexible"
+                            label="Multiline"
+                            multiline
+                            rowsMax="4"
+                            value={newCommentContent}
+                            onChange={this.handleChange}
+                            margin="normal"
+                            variant="outlined"
+                          />
+                          <Button
+                            variant="contained"
+                            size="large"
+                            color="primary"
+                            style={{marginTop:'2Opx'}}
+                            onClick={this.submitComment}
+                          >
+                            Commenter
+                          </Button>
+                        </FormControl>
+                      </Paper>
+
+                    )}
+                  </div>
+                </div>
             )}
-
-            {/* Liste commentaire */}
-            <List>{listComment}</List>
+            {value === 1 && (
+              <div style={{display: 'flex'}}>
+                <iframe style={{height: "80vh", width: "100%", position: "relative"}} src={movie.video} ></iframe>
+              </div>
+            )}
           </Fragment>
+
         )}
       </Fragment>
     );

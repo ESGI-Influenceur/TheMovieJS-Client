@@ -1,3 +1,12 @@
+html {
+    font-family: Muli, Roboto, Helvetica Neue, Arial, sans-serif;
+}
+
+body {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
 #root {
   right: 0;
   display: flex;
@@ -17,42 +26,65 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
-.fiche {
-  display: block;
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  position: relative;
+
+
+.poster-image{
+    display: block;
+    width: 300px;
+    height: 450px;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.fiche .ficher-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 1;
-  background-image: radial-gradient(circle at -50px 100%, rgba(255, 255, 255, 0.6) 0%, rgba(0, 0, 0, 0.75) 100%);
+.fiche{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: relative;
+    height: 500px;
+    min-height: 500px;
+    align-items: center;
+}
+.ficher-overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    background-image: radial-gradient(circle at -50px 100%, rgba(255, 255, 255, 0.6) 0%, rgba(0, 0, 0, 0.75) 100%);
 }
 
-.fiche .fiche-content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  z-index: 2;
+.fiche-content{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    align-items: center;
+    max-width: 900px;
 }
 
-.fiche .description {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 470px;
-  color: white;
+.description {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 470px;
+    color: white;
+    padding: 0 15px;
+}
+
+.description p {
+    overflow: hidden;
+    margin-top: 40px;
 }

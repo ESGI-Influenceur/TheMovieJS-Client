@@ -46,18 +46,19 @@ class Layout extends Component {
                 color="inherit"
                 aria-label="Menu"
               />
-              <Typography variant="h6" color="inherit" className="grow">
-                The MovieJS
+              <Typography variant="h6" color="inherit" className="grow" style={{marginRight:"30px"}}>
+                <Button color="inherit" component={Link} to="/">
+                  The MovieJS
+                </Button>
               </Typography>
-              <Button color="inherit" component={Link} to="/">
-                Accueil
-              </Button>
+
               <Button color="inherit" component={Link} to="/movie">
                 Films
               </Button>
               <Button color="inherit" component={Link} to="/tv">
                 Series
               </Button>
+
               <span style={{ flex: 1 }} />
               {this.props.isLoginSuccess ? null : (
                 <Button color="inherit" component={Link} to="/login">
