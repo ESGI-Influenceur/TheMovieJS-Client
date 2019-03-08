@@ -1,4 +1,8 @@
-import { GET_MOVIES_SUCCESS, GET_MOVIE_DETAIL_SUCCESS } from "../actions";
+import {
+  GET_MOVIES_SUCCESS,
+  GET_MOVIE_DETAIL_SUCCESS,
+  POST_COMMENT_SUCCESS
+} from "../actions";
 import { combineReducers } from "redux";
 
 const defaultStateMovies = {
@@ -23,7 +27,6 @@ const moviesAllReducer = (state = defaultStateMovies, action) => {
 const movieDetailReducer = (state = defaultStateMovieDetail, action) => {
   switch (action.type) {
     case GET_MOVIE_DETAIL_SUCCESS:
-      console.log(action.payload);
       return {
         movie: action.payload.data
       };

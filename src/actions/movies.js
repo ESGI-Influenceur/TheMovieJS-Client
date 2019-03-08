@@ -6,6 +6,10 @@ export const GET_MOVIE_DETAIL_PENDING = "GET_MOVIE_DETAIL_PENDING";
 export const GET_MOVIE_DETAIL_SUCCESS = "GET_MOVIE_DETAIL_SUCCESS";
 export const GET_MOVIE_DETAIL_ERROR = "GET_MOVIE_DETAIL_ERROR";
 
+export const POST_COMMENT_PENDING = "POST_COMMENT_PENDING";
+export const POST_COMMENT_SUCCESS = "POST_COMMENT_SUCCESS";
+export const POST_COMMENT_ERROR = "POST_COMMENT_ERROR";
+
 export function getMovies() {
   return {
     types: [GET_MOVIES_PENDING, GET_MOVIES_SUCCESS, GET_MOVIES_ERROR],
@@ -31,6 +35,21 @@ export function getMovieDetail(id) {
         url: `/movies/${id}`,
         data: {
           id
+        }
+      }
+    }
+  };
+}
+
+export function commentMovie(id, content) {
+  return {
+    types: [POST_COMMENT_PENDING, POST_COMMENT_SUCCESS, POST_COMMENT_ERROR],
+    payload: {
+      request: {
+        method: "POST",
+        url: `/comments/movie/${id}`,
+        data: {
+          content
         }
       }
     }

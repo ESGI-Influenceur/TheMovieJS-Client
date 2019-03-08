@@ -1,16 +1,18 @@
 import { connect } from "react-redux";
 import MovieDetail from "./presenter";
-import { getMovieDetail } from "../../actions";
+import { getMovieDetail, commentMovie } from "../../actions";
 
-const mapStateToProps = ({ moviesReducer }) => {
+const mapStateToProps = ({ moviesReducer, loginReducer }) => {
   return {
-    movie: moviesReducer.movieDetailReducer.movie
+    movie: moviesReducer.movieDetailReducer.movie,
+    isLoginSuccess: loginReducer.isLoginSuccess
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getMovieDetail: id => dispatch(getMovieDetail(id))
+    getMovieDetail: id => dispatch(getMovieDetail(id)),
+    commentMovie: (id, content) => dispatch(commentMovie(id, content))
   };
 };
 

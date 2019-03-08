@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Layout from "./components/Layout";
-// import "./css/dashboard.css";
 import "./css/main.css";
 
 export default class App extends Component {

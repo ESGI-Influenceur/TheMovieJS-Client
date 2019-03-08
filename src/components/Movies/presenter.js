@@ -10,8 +10,8 @@ class Movies extends Component {
     this.props.getMovies();
   }
 
-  goToMovieDetail(id) {
-    this.props.history.push(`/movie/${id}`, { id });
+  goToMovieDetail(id, movie) {
+    this.props.history.push(`/movie/${id}`, { movie });
   }
 
   render() {
@@ -23,7 +23,7 @@ class Movies extends Component {
         return (
           <Grid item xs={12} md={6} lg={6} key={index}>
             <Card
-              onClick={() => this.goToMovieDetail(movie.id)}
+              onClick={() => this.goToMovieDetail(movie.id, movie)}
               className="card"
               style={{
                 display: "flex",
