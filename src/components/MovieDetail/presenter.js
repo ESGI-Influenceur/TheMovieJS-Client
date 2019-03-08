@@ -16,14 +16,16 @@ import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
 import Chip from "@material-ui/core/Chip";
 
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import Paper from "@material-ui/core/Paper";
+import Divider from "@material-ui/core/Divider";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import StarRatings from "react-star-ratings";
 
 class MovieDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userRating: 0,
       id: null,
       alertCommentOpen: false,
       alertCommentText: null,
@@ -70,6 +72,17 @@ class MovieDetail extends Component {
     }
   };
 
+  handleRating = userRate => {
+    console.log(this.props);
+    this.setState({
+      userRating: userRate
+    });
+
+    this.props.rateMovie(this.props.match.params.id, userRate).then(() => {
+      this.props.getMovieDetail(this.props.match.params.id);
+    });
+  };
+
   handleChange = e => {
     const value = e.currentTarget.value;
 
@@ -82,20 +95,19 @@ class MovieDetail extends Component {
     this.setState({ value });
   };
 
-
   handleAlertClose = () => {
     this.setState({ alertCommentOpen: false, alertCommentText: null });
   };
 
   render() {
-    console.log(this.state.value);
-
     const { value } = this.state;
+
     const { movie, isLoginSuccess } = this.props;
     const {
       newCommentContent,
       alertCommentOpen,
-      alertCommentText
+      alertCommentText,
+      userRating
     } = this.state;
 
     let listComment;
@@ -126,22 +138,28 @@ class MovieDetail extends Component {
             </ListItem>
             <Divider />
           </Fragment>
-
         );
       });
     }
 
-    if (movie){
+    if (movie) {
       listGenre = movie.genre.map((genre, index) => {
         console.log(genre.name);
         return (
-            <Chip key={index} label={genre.name} style={{margin:'0 5px'}}/>
+          <Chip key={index} label={genre.name} style={{ margin: "0 5px" }} />
         );
       });
     }
 
     return (
       <Fragment>
+        <StarRatings
+          rating={userRating}
+          starRatedColor="yellow"
+          changeRating={this.handleRating}
+          numberOfStars={5}
+          name="userRating"
+        />
         <Snackbar
           anchorOrigin={{
             vertical: "top",
@@ -168,25 +186,36 @@ class MovieDetail extends Component {
         />
         {movie && (
           <Fragment>
-            <div className='fiche' style={{backgroundImage:'url('+movie.backdrop_path+')'}}>
-              <div className='ficher-overlay'>
-              </div>
-              <div className='fiche-content'>
+            <div
+              className="fiche"
+              style={{ backgroundImage: "url(" + movie.backdrop_path + ")" }}
+            >
+              <div className="ficher-overlay" />
+              <div className="fiche-content">
                 <div>
-                  <img className='poster-image' src={movie.poster_path}></img>
+                  <img className="poster-image" src={movie.poster_path} />
                 </div>
-                <div className='description'>
+                <div className="description">
                   <h1>{movie.title}</h1>
 
-                  <Avatar style={{
-                    color: '#fff',
-                    margin: '0px 0px 20px 0px',
-                    backgroundColor: movie.vote_average > 5 ? '#4caf50' : '#ff5722'}}>{movie.vote_average}</Avatar>
+                  <Avatar
+                    style={{
+                      color: "#fff",
+                      margin: "0px 0px 20px 0px",
+                      backgroundColor:
+                        movie.vote_average > 5 ? "#4caf50" : "#ff5722"
+                    }}
+                  >
+                    {movie.vote_average}
+                  </Avatar>
 
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    flexWrap: 'wrap'}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      flexWrap: "wrap"
+                    }}
+                  >
                     {listGenre}
                   </div>
                   <p>{movie.overview}</p>
@@ -208,57 +237,81 @@ class MovieDetail extends Component {
             </AppBar>
 
             {value === 0 && (
-              <div style={{ backgroundColor: '#eeeeee',width:'100%',position:'relative'}}>
-                <div style={{display:'flex',flexDirection:'column'}}>
-
-                  <List subheader={<ListSubheader style={{    background: 'white', borderBottom: '1px solid rgba(0,0,0,0.1)'}} component="div" >Comments list</ListSubheader>}>
+              <div
+                style={{
+                  backgroundColor: "#eeeeee",
+                  width: "100%",
+                  position: "relative"
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <List
+                    subheader={
+                      <ListSubheader
+                        style={{
+                          background: "white",
+                          borderBottom: "1px solid rgba(0,0,0,0.1)"
+                        }}
+                        component="div"
+                      >
+                        Comments list
+                      </ListSubheader>
+                    }
+                  >
                     {listComment}
-                    </List>
+                  </List>
 
-                    {isLoginSuccess && (
-
-                      <Paper elevation={1} style={{    width: '400px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: '10px 0px',
-                        margin: '50px auto'}}>
-                        <FormControl className="container">
-
-
-                          <TextField
-                            name={"newCommentContent"}
-                            id="outlined-multiline-flexible"
-                            label="Multiline"
-                            multiline
-                            rowsMax="4"
-                            value={newCommentContent}
-                            onChange={this.handleChange}
-                            margin="normal"
-                            variant="outlined"
-                          />
-                          <Button
-                            variant="contained"
-                            size="large"
-                            color="primary"
-                            style={{marginTop:'2Opx'}}
-                            onClick={this.submitComment}
-                          >
-                            Commenter
-                          </Button>
-                        </FormControl>
-                      </Paper>
-
-                    )}
-                  </div>
+                  {isLoginSuccess && (
+                    <Paper
+                      elevation={1}
+                      style={{
+                        width: "400px",
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: "10px 0px",
+                        margin: "50px auto"
+                      }}
+                    >
+                      <FormControl className="container">
+                        <TextField
+                          name={"newCommentContent"}
+                          id="outlined-multiline-flexible"
+                          label="Multiline"
+                          multiline
+                          rowsMax="4"
+                          value={newCommentContent}
+                          onChange={this.handleChange}
+                          margin="normal"
+                          variant="outlined"
+                        />
+                        <Button
+                          variant="contained"
+                          size="large"
+                          color="primary"
+                          style={{ marginTop: "2Opx" }}
+                          onClick={this.submitComment}
+                        >
+                          Commenter
+                        </Button>
+                      </FormControl>
+                    </Paper>
+                  )}
                 </div>
+              </div>
             )}
             {value === 1 && (
-              <div style={{display: 'flex'}}>
-                <iframe style={{height: "80vh", width: "100%", position: "relative"}} src={movie.video} ></iframe>
+              <div style={{ display: "flex" }}>
+                <iframe
+                  style={{
+                    height: "80vh",
+                    width: "100%",
+                    position: "relative"
+                  }}
+                  src={movie.video}
+                />
               </div>
             )}
           </Fragment>
-
         )}
       </Fragment>
     );
