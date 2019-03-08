@@ -41,6 +41,18 @@ class MovieDetail extends Component {
       id: id
     });
     this.props.getMovieDetail(id);
+    if (this.props.movie.votes.length > 0) {
+      this.props.movie.votes.forEach(vote => {
+        if (vote.user) {
+          if (vote.user.username === this.props.username) {
+            this.setState({
+              userRating: vote.vote
+            });
+            return;
+          }
+        }
+      });
+    }
   }
 
   submitComment = e => {
