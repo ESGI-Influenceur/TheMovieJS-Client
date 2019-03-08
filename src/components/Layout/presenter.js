@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Home from "../Home";
 import Login from "../Login";
+import Register from "../Register";
 import Movies from "../Movies";
 import MovieDetail from "../MovieDetail";
 import Tv from "../Tv";
@@ -60,7 +61,11 @@ class Layout extends Component {
               </Button>
 
               <span style={{ flex: 1 }} />
-              {this.props.isLoginSuccess ? null : (
+              {this.props.isLoginSuccess ? (
+                <Button color="inherit" onClick={() => this.props.logout()}>
+                  Logout
+                </Button>
+              ) : (
                 <Button color="inherit" component={Link} to="/login">
                   Login
                 </Button>
@@ -73,6 +78,7 @@ class Layout extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
             <Route exact path="/movie" component={Movies} />
             <Route exact path="/movie/:id" component={MovieDetail} />
             <Route exact path="/tv" component={Tv} />

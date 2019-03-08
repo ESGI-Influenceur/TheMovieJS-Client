@@ -1,8 +1,4 @@
-import {
-  GET_MOVIES_SUCCESS,
-  GET_MOVIE_DETAIL_SUCCESS,
-  POST_COMMENT_SUCCESS
-} from "../actions";
+import { GET_MOVIES_SUCCESS, GET_MOVIE_DETAIL_SUCCESS } from "../actions";
 import { combineReducers } from "redux";
 
 const defaultStateMovies = {

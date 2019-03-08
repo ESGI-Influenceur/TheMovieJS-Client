@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Layout from "./presenter";
 import { withRouter } from "react-router-dom";
+import { logout } from "../../actions";
 
 const mapStateToProps = ({ loginReducer }) => {
   return {
@@ -10,4 +11,15 @@ const mapStateToProps = ({ loginReducer }) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Layout));
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Layout)
+);

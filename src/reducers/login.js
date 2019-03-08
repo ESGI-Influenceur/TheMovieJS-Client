@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_PENDING, LOGIN_ERROR } from "../actions";
+import { LOGIN_SUCCESS, LOGIN_PENDING, LOGIN_ERROR, LOGOUT } from "../actions";
 import jwt_decode from "jwt-decode";
 
 const defaultStateLogin = {
@@ -36,6 +36,10 @@ const loginReducer = (state = defaultStateLogin, action) => {
         ...state,
         isLoginPending: false,
         isLoginError: true
+      };
+    case LOGOUT:
+      return {
+        ...defaultStateLogin
       };
     default:
       return state;

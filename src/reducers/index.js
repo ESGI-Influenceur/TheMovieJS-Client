@@ -4,6 +4,7 @@ import sessionStorage from "redux-persist/es/storage/session";
 import loginReducer from "./login";
 import moviesReducer from "./movies";
 import tvsReducer from "./tv";
+import registerReducer from "./register";
 
 const persistConfig = {
   key: "root",
@@ -13,7 +14,8 @@ const persistConfig = {
 const appReducer = persistCombineReducers(persistConfig, {
   loginReducer,
   moviesReducer,
-  tvsReducer
+  tvsReducer,
+  registerReducer
 });
 
 export default appReducer;

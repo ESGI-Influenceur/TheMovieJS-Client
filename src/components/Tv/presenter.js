@@ -18,7 +18,7 @@ class Tvs extends Component {
     const { tvs } = this.props;
     let allTvs;
 
-    if (tvs.length > 0) {
+    if (tvs && tvs.length > 0) {
       allTvs = tvs.map((tv, index) => {
         return (
           <Grid item xs={12} md={6} lg={6} key={index}>

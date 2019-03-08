@@ -21,7 +21,7 @@ class Movies extends Component {
     const { movies } = this.props;
     let allMovies;
 
-    if (movies.length > 0) {
+    if (movies && movies.length > 0) {
       allMovies = movies.map((movie, index) => {
         return (
           <Grid item xs={12} md={6} lg={4} key={index} style={{
