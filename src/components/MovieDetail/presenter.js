@@ -201,17 +201,27 @@ class MovieDetail extends Component {
                 </div>
                 <div className="description">
                   <h1>{movie.title}</h1>
+                  <div style={{display : 'flex',margin: "0px 0px 20px 0px",}}>
+                    <Avatar
+                      style={{
+                        color: "#fff",
+                        margin: "0px 20px 0px 0px",
+                        backgroundColor:
+                          movie.vote_average > 5 ? "#4caf50" : "#ff5722"
+                      }}
+                    >
+                      {movie.vote_average}
+                    </Avatar>
+                    <StarRatings
+                      rating={userRating}
+                      starRatedColor="yellow"
+                      changeRating={this.handleRating}
+                      numberOfStars={5}
+                      name="userRating"
+                    />
 
-                  <Avatar
-                    style={{
-                      color: "#fff",
-                      margin: "0px 0px 20px 0px",
-                      backgroundColor:
-                        movie.vote_average > 5 ? "#4caf50" : "#ff5722"
-                    }}
-                  >
-                    {movie.vote_average}
-                  </Avatar>
+                  </div>
+
 
                   <div
                     style={{
@@ -262,13 +272,7 @@ class MovieDetail extends Component {
                       </ListSubheader>
                     }
                   >
-                    <StarRatings
-                      rating={userRating}
-                      starRatedColor="yellow"
-                      changeRating={this.handleRating}
-                      numberOfStars={5}
-                      name="userRating"
-                    />
+
                     {listComment}
                   </List>
 
